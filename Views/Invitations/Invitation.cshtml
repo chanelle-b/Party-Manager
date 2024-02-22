@@ -1,0 +1,26 @@
+﻿@model MicrosoftAssignment2.Models.Invitation
+
+@{
+    ViewData["Title"] = "Invitation Response";
+}
+
+<h2>Invitation response</h2>
+
+<form asp-action="SubmitResponse" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <h4>You have been invited to the "@Model.Party.Description" party!</h4>
+        <p>Hey @Model.GuestName, congrats, you've been invited to "@Model.Party.Description". Will you attend?</p>
+        <label style="margin-right: 10px;">
+            <input type="radio" name="response" value="yes" /> Yes
+        </label>
+        <label style="margin-left: 10px;">
+            <input type="radio" name="response" value="no" /> No
+        </label>
+    </div>
+
+    <button type="submit" style="background-color: #FFC0CB; color: white; padding: 10px 20px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer;">
+        Submit response
+    </button>
+</form>

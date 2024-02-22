@@ -1,0 +1,73 @@
+﻿@model MicrosoftAssignment2.Models.Party
+
+@{
+    ViewData["Title"] = "Manage Party";
+}
+
+<h2>Manage your party</h2>
+
+<div>
+    <a asp-action="Index">All parties</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit this party</a> |
+    <a asp-action="Add">Add new party</a>
+</div>
+
+<h3>Party summary:</h3>
+<p>
+    The party "@Model.Description" is at @Model.Location on @Model.EventDate.ToShortDateString()
+</p>
+<p>
+    Invites not sent: @Model.Invitations.Count(i => i.Status == InvitationStatus.InviteNotSent)
+    Sent count: @Model.Invitations.Count(i => i.Status == InvitationStatus.InviteSent)
+    Yes count: @Model.Invitations.Count(i => i.Status == InvitationStatus.RespondedYes)
+    No count: @Model.Invitations.Count(i => i.Status == InvitationStatus.RespondedNo)
+</p>
+
+<h4>Invitations:</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Guest name</th>
+            <th>Guest email</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invite in Model.Invitations)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => invite.GuestName)</td>
+                <td>@Html.DisplayFor(modelItem => invite.GuestEmail)</td>
+                <td>@Html.DisplayFor(modelItem => invite.Status)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+<form asp-action="CreateInvitation" method="post">
+    <input type="hidden" name="PartyId" value="@Model.Id" />
+    <div class="row mb-3">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Guest name" name="GuestName" required />
+        </div>
+        <div class="col">
+            <input type="email" class="form-control" placeholder="Guest email" name="GuestEmail" required />
+        </div>
+        <div class="col">
+            <button type="submit" style="background-color: #FFC0CB; color: white; padding: 10px 20px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer;"class="btn btn-primary">Create invitation</button>
+        </div>
+    </div>
+</form>
+    <div class="row">
+        <div class="col">
+            <div class="text-left"> 
+<form asp-controller="Parties" asp-action="SendInvitations" method="post">
+    <input type="hidden" name="partyId" value="@Model.Id" />
+    <button type="submit" style="background-color: #FFC0CB; color: white; padding: 10px 20px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer;"class="btn btn-primary">Send Invitations</button>
+</form>
+
+        </div>
+    </div>
+</div>
+

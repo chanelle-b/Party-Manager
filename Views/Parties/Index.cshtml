@@ -1,0 +1,56 @@
+﻿@model IEnumerable<MicrosoftAssignment2.Models.Party>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All My Parties</h1>
+
+<p>
+    <a asp-action="Add">Add a new party</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Description
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                # of Invites
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventDate) 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @item.Invitations.Count 
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Manage</a> |
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
